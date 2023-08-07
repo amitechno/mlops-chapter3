@@ -35,7 +35,7 @@ jobs:
       run: python -m pytest starter/test/test_model.py
 
     - name: Run pytest for API
-      run: python -m pytest starter/test/test_app.py
+      run: python -m pytest test/test_app.py
 
     - name: Run flake8
       run: flake8
