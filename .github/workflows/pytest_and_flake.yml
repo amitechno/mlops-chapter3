@@ -1,6 +1,9 @@
-name: Pytest and Flake8
+name: Pytest, Flake8, and DVC Pull
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   test:
@@ -13,13 +16,38 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8  # Replace '3.x' with the Python version you used in development
+        python-version: 3.8
 
     - name: Install dependencies
-      run: pip install pytest flake8
+      run: |
+        pip install pytest flake8
+        pip install dvc dvc-s3 coverage codecov
+        pip install numpy scikit-learn fastapi httpx
 
-    - name: Run pytest
-      run: pytest
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1 
 
-    - name: Run flake8
-      run: flake8
+    - name: Static Code Analysis
+      run: flake8 . --max-line-length 120
+
+    - name: Continuous Testing stage for Model
+      run: python -m pytest test/test_model.py
+
+    - name: Continuous Testing stage for API
+      run: python -m pytest test/test_app.py
+    
+    - name: Run tests with coverage
+      run: coverage run -m pytest
+
+    - name: Upload coverage to Codecov
+      run: codecov
+
+    - name: Setup DVC
+      uses: iterative/setup-dvc@v1
+
+    - name: Pull DVC data
+      run: dvc pull
