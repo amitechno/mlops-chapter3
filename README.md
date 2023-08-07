@@ -65,11 +65,12 @@ To use your new S3 bucket from the AWS CLI you will need to create an IAM user w
 
 ## API Deployment
 
-* Create a free Heroku account (for the next steps you can either use the web GUI or download the Heroku CLI).
-* Create a new app and have it deployed from your GitHub repository.
-   * Enable automatic deployments that only deploy if your continuous integration passes.
-   * Hint: think about how paths will differ in your local environment vs. on Heroku.
-   * Hint: development in Python is fast! But how fast you can iterate slows down if you rely on your CI/CD to fail before fixing an issue. I like to run flake8 locally before I commit changes.
-* Set up DVC on Heroku using the instructions contained in the starter directory.
-* Set up access to AWS on Heroku, if using the CLI: `heroku config:set AWS_ACCESS_KEY_ID=xxx AWS_SECRET_ACCESS_KEY=yyy`
-* Write a script that uses the requests module to do one POST on your live API.
+* Sign up for an account on Render: Go to https://render.com/ and sign up for a free account if you don't have one already.
+* Create a New Web Service: Once you have signed in to your Render account, click on "Create a new web service" to get started.
+* Choose a Repository: Select the repository that contains your project code. Render will automatically detect the language and framework used in your project.
+* Configure the Service: Configure the web service settings according to your project requirements. This will include choosing a name for the service, selecting a branch to deploy, and specifying the build command and port to run your application.
+* Deploy Your Project: Click on "Create Web Service" to start the deployment process. Render will automatically build and deploy your project.
+* Access Your App: Once the deployment is complete, Render will provide you with a URL where your app is accessible.
+* Verify Your App: Visit the provided URL in your web browser to verify that your app is running correctly.
+* Continuous Deployment: Render supports continuous deployment, which means that every time you push changes to your project's repository, Render will automatically build and deploy the latest version of your app.
+* Custom Domains (Optional): If you want to use a custom domain for your app, you can configure it in the Render dashboard.
