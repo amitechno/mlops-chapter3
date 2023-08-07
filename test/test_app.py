@@ -5,10 +5,12 @@ from pydantic import ValidationError
 
 client = TestClient(app)
 
+
 def test_read_root():
     response = client.get("/")
     assert response.status_code == 200
     assert response.json() == {"Hello": "Welcome to project 3!"}
+
 
 def test_valid_prediction():
     data = {
@@ -31,6 +33,7 @@ def test_valid_prediction():
     assert response.status_code == 200
     assert response.json() == {"income class": '<=50K'}
 
+
 def test_invalid_prediction():
     data = {
         "age": 25,
@@ -51,6 +54,7 @@ def test_invalid_prediction():
     response = client.post("/predict", json=data)
     assert response.status_code == 200
     assert response.json() != {"income class": '>50K'}
+
 
 def test_invalid_data():
     # This test case checks for invalid/missing post request

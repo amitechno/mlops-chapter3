@@ -5,6 +5,7 @@ from .ml.data import process_data
 from .ml.model import train_model, inference, compute_model_metrics
 import joblib
 
+
 def get_data(data_path):
     # Load the data
     data = pd.read_csv(data_path)
@@ -14,8 +15,9 @@ def get_data(data_path):
 
     return train_data, test_data
 
-def train_and_save_model(train_data, model_path, cat_features, label_column='salary'):
-    
+
+def train_and_save_model(train_data, model_path,
+                         cat_features, label_column='salary'):
 
     # Process the training data
     X_train, y_train, encoder, lb = process_data(
@@ -28,7 +30,9 @@ def train_and_save_model(train_data, model_path, cat_features, label_column='sal
     # Save the trained model
     joblib.dump((model, encoder, lb), model_path)
 
-def batch_inference(test_data, model_path, cat_features, label_column='salary'):
+
+def batch_inference(test_data, model_path, cat_features,
+                    label_column='salary'):
     # Load the model from `model_path`
     model, encoder, lb = joblib.load(model_path)
 
@@ -50,6 +54,7 @@ def batch_inference(test_data, model_path, cat_features, label_column='salary'):
     print('F-beta score:\t', fbeta)
 
     return precision, recall, fbeta
+
 
 def online_predict(row_dict, model_path, cat_features, label_column='salary'):
     # Load the model from `model_path`

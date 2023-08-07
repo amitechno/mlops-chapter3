@@ -1,6 +1,7 @@
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 
+
 def train_model(X_train, y_train):
     """
     Trains a machine learning model and returns it.
@@ -65,4 +66,3 @@ def inference(model, X):
     preds = model.predict(X)
 
     return preds
-
