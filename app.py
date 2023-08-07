@@ -1,10 +1,8 @@
-import os
 import numpy as np
 from fastapi import FastAPI, HTTPException
-from fastapi.encoders import jsonable_encoder
-from pydantic import BaseModel, Field, ValidationError, validator
+from pydantic import BaseModel, Field
 import joblib
-from starter.starter.ml.model import inference
+from starter.ml.model import inference
 
 app = FastAPI()
 
@@ -18,6 +16,7 @@ CAT_FEATURES = [
     "sex",
     "native-country",
 ]
+
 
 class Item(BaseModel):
     age: int = Field(..., example=32)
@@ -35,11 +34,6 @@ class Item(BaseModel):
     hours_per_week: int = Field(..., example=40)
     native_country: str = Field(..., example="United-States")
 
-    @validator("age", "fnlgt", "education_num", "capital_gain", "capital_loss", "hours_per_week")
-    def check_non_negative_int(cls, v):
-        if v < 0:
-            raise ValueError("Integer values should not be negative.")
-        return v
 
 def online_inference(row_dict, model_path, cat_features):
     # Load the model from `model_path`
@@ -70,11 +64,13 @@ def online_inference(row_dict, model_path, cat_features):
 def home():
     return {"Hello": "Welcome to project 3!"}
 
+
 @app.post('/predict')
 async def predict_income(inputrow: Item):
-    model_path = 'starter/model/census_model.pkl'
+    model_path = 'model/census_model.pkl'
     try:
-        prediction = online_inference(inputrow.dict(), model_path, CAT_FEATURES)
+        prediction = online_inference(
+            inputrow.dict(), model_path, CAT_FEATURES)
         return {"income class": prediction}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

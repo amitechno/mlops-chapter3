@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from starter.starter.ml.model import train_model, compute_model_metrics, inference
+from starter.ml.model import train_model, compute_model_metrics, inference
 
 
 def generate_data():
