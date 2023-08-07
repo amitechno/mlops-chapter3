@@ -4,9 +4,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel, Field, ValidationError, validator
 from pydantic.fields import ModelField
-from typing import Any
 import joblib
-from starter.ml.model import inference
+from starter.starter.ml.model import inference
 
 app = FastAPI()
 
@@ -74,7 +73,7 @@ def home():
 
 @app.post('/predict')
 async def predict_income(inputrow: Item):
-    model_path = 'model/census_model.pkl'
+    model_path = 'starter/model/census_model.pkl'
     try:
         prediction = online_inference(inputrow.dict(), model_path, CAT_FEATURES)
         return {"income class": prediction}
