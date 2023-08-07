@@ -3,7 +3,6 @@ import numpy as np
 from fastapi import FastAPI, HTTPException
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel, Field, ValidationError, validator
-from pydantic.fields import ModelField
 import joblib
 from starter.starter.ml.model import inference
 
