@@ -40,10 +40,8 @@ jobs:
     - name: Continuous Testing stage for API
       run: python -m pytest test/test_app.py
 
-    
-
-    - name: Set up DVC cache
-      run: dvc cache dir s3://project3-data/dvc-storage
+    - name: Setup DVC
+      uses: iterative/setup-dvc@v1
 
     - name: Pull DVC data
       run: dvc pull
