@@ -29,7 +29,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1  # Replace with your desired AWS region
+        aws-region: us-east-1 
 
     - name: Static Code Analysis
       run: flake8 . --max-line-length 120
@@ -43,7 +43,7 @@ jobs:
     
 
     - name: Set up DVC cache
-      run: dvc cache dir s3://your-bucket/dvc-cache  # Replace with your S3 bucket for DVC cache
+      run: dvc cache dir s3://project3-data/dvc-storage
 
     - name: Pull DVC data
       run: dvc pull
