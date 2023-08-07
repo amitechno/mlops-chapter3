@@ -18,13 +18,12 @@ def train_model(X_train, y_train):
         Trained machine learning model.
     """
 
-    # Replace this with any other model and tune its hyperparameters
-    model = LogisticRegression()
+    ltr = LogisticRegression()
 
     # Train the model
-    model.fit(X_train, y_train)
+    ltr.fit(X_train, y_train)
 
-    return model
+    return ltr
 
 
 def compute_model_metrics(y, preds):
@@ -51,19 +50,19 @@ def compute_model_metrics(y, preds):
 
 
 def inference(model, X):
-    """ Run model inferences and return the predictions.
+    """Run model inferences and return the predictions.
 
-    Inputs
-    ------
-    model : sklearn.base.BaseEstimator
-        Trained machine learning model.
-    X : np.array
-        Data used for prediction.
+    Inputs:
+        model: sklearn.base.BaseEstimator
+            Trained machine learning model.
+        X_new: pd.DataFrame
+            Data used for prediction.
 
-    Returns
-    -------
-    preds : np.array
-        Predictions from the model.
+    Returns:
+        preds: np.array
+            Predictions from the model.
     """
     preds = model.predict(X)
+
     return preds
+

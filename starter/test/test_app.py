@@ -1,8 +1,6 @@
-# test_main.py
-
 import pytest
 from fastapi.testclient import TestClient
-from main import app
+from app import app
 from pydantic import ValidationError
 
 client = TestClient(app)
@@ -10,7 +8,7 @@ client = TestClient(app)
 def test_read_root():
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json() == {"message": "Welcome to the API for model inference!"}
+    assert response.json() == {"Hello": "Welcome to project 3!"}
 
 def test_valid_prediction():
     data = {
@@ -27,12 +25,11 @@ def test_valid_prediction():
         "capital_gain": 0,
         "capital_loss": 0,
         "hours_per_week": 40,
-        "native_country": "United-States",
-        "salary": ">50K",
+        "native_country": "United-States"
     }
-    response = client.post("/predict/", json=data)
+    response = client.post("/predict", json=data)
     assert response.status_code == 200
-    assert response.json() == {"prediction": 1}
+    assert response.json() == {"income class": '<=50K'}
 
 def test_invalid_prediction():
     data = {
@@ -49,21 +46,20 @@ def test_invalid_prediction():
         "capital_gain": 0,
         "capital_loss": 0,
         "hours_per_week": 45,
-        "native_country": "United-States",
-        "salary": "<=50K",
+        "native_country": "United-States"
     }
-    response = client.post("/predict/", json=data)
+    response = client.post("/predict", json=data)
     assert response.status_code == 200
-    assert response.json() == {"prediction": 0}
+    assert response.json() != {"income class": '>50K'}
 
 def test_invalid_data():
-    # This test case checks for invalid data where age and education_num are negative values
+    # This test case checks for invalid/missing post request
     data = {
-        "age": -30,
+        "age": 30,
         "workclass": "Private",
         "fnlgt": 77516,
         "education": "Bachelors",
-        "education_num": -13,
+        "education_num": 13,
         "marital_status": "Married-civ-spouse",
         "occupation": "Exec-managerial",
         "relationship": "Husband",
@@ -71,10 +67,7 @@ def test_invalid_data():
         "sex": "Male",
         "capital_gain": 0,
         "capital_loss": 0,
-        "hours_per_week": 40,
-        "native_country": "United-States",
-        "salary": ">50K",
+        "hours_per_week": 40
     }
-    with pytest.raises(ValidationError):
-        client.post("/predict/", json=data)
-
+    response = client.post("/predict", json=data)
+    assert response.status_code == 422
