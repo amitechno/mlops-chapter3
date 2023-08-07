@@ -55,7 +55,8 @@ def batch_inference(test_data, model_path, cat_features,
     return precision, recall, fbeta
 
 
-def online_predict(row_dict, model_path, cat_features, label_column='salary'):
+def online_predict(row_dict, model_path, cat_features,
+                   label_column='salary'):
     # Load the model from `model_path`
     model, encoder, lb = joblib.load(model_path)
 
