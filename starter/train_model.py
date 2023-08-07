@@ -21,8 +21,7 @@ def train_and_save_model(train_data, model_path,
 
     # Process the training data
     X_train, y_train, encoder, lb = process_data(
-        train_data, categorical_features=cat_features, label=label_column, training=True
-    )
+        train_data, categorical_features=cat_features, label=label_column, training=True)
 
     # Train the model
     model = train_model(X_train, y_train)
