@@ -21,7 +21,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install pytest flake8
-        pip install dvc dvc-s3 coverage
+        pip install dvc dvc-s3 coverage codecov
         pip install numpy scikit-learn fastapi httpx
 
     - name: Configure AWS credentials
