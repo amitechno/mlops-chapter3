@@ -11,17 +11,23 @@ def get_data(data_path):
     data = pd.read_csv(data_path)
 
     # Split the data into training and testing sets
-    train_data, test_data = train_test_split(data, test_size=0.20)
+    train_data, test_data = train_test_split(
+        data, test_size=0.20)
 
     return train_data, test_data
 
 
-def train_and_save_model(train_data, model_path,
-                         cat_features, label_column='salary'):
+def train_and_save_model(
+        train_data,
+        model_path,
+        cat_features,
+        label_column='salary'):
 
     # Process the training data
     X_train, y_train, encoder, lb = process_data(
-        train_data, categorical_features=cat_features, label=label_column, training=True)
+        train_data, categorical_features=cat_features,
+        label=label_column,
+        training=True)
 
     # Train the model
     model = train_model(X_train, y_train)
@@ -47,7 +53,8 @@ def batch_inference(test_data, model_path, cat_features,
 
     # Evaluate model
     preds = inference(model=model, X=X_test)
-    precision, recall, fbeta = compute_model_metrics(y_test, preds)
+    precision, recall, fbeta = compute_model_metrics(
+        y_test, preds)
     print('Precision:\t', precision)
     print('Recall:\t', recall)
     print('F-beta score:\t', fbeta)
@@ -73,10 +80,12 @@ def online_predict(row_dict, model_path, cat_features,
     # Transform input data
     X_cat = encoder.transform([X_categorical])
     X_cont = np.asarray([X_continuous])
-    row_transformed = np.concatenate([X_cont, X_cat], axis=1)
+    row_transformed = np.concatenate(
+        [X_cont, X_cat], axis=1)
 
     # Get inference from model
     preds = inference(model=model, X=row_transformed)
 
-    # Return the predicted income category based on the model's prediction
+    # Return the predicted income category based on the
+    # model's prediction
     return '>50K' if preds[0] else '<=50K'

@@ -31,14 +31,16 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1  # Replace with your desired AWS region
 
-    - name: Run pytest for model
+    - name: Static Code Analysis
+      run: flakflake8 . --max-line-length 120
+
+    - name: Continuous Testing stage for Model
       run: python -m pytest test/test_model.py
 
-    - name: Run pytest for API
+    - name: Continuous Testing stage for API
       run: python -m pytest test/test_app.py
 
-    - name: Run flake8
-      run: flake8
+    
 
     - name: Set up DVC cache
       run: dvc cache dir s3://your-bucket/dvc-cache  # Replace with your S3 bucket for DVC cache

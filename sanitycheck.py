@@ -19,19 +19,35 @@ def run_sanity_check(test_dir):
     print('The path should be something like abc/def/test_xyz.py')
     filepath = input('> ')
 
-    assert path.exists(filepath), f"File {filepath} does not exist."
+    assert path.exists(
+        filepath), f"File {filepath} does not exist."
     sys.path.append(path.dirname(filepath))
 
     module_name = path.splitext(path.basename(filepath))[0]
     module = importlib.import_module(module_name)
 
-    test_function_names = list(filter(lambda x: inspect.isfunction(
-        getattr(module, x)) and not x.startswith('__'), dir(module)))
+    test_function_names = list(
+        filter(
+            lambda x: inspect.isfunction(
+                getattr(
+                    module,
+                    x)) and not x.startswith('__'),
+            dir(module)))
 
-    test_functions_for_get = list(filter(lambda x: inspect.getsource(
-        getattr(module, x)).find('.get(') != -1, test_function_names))
-    test_functions_for_post = list(filter(lambda x: inspect.getsource(
-        getattr(module, x)).find('.post(') != -1, test_function_names))
+    test_functions_for_get = list(
+        filter(
+            lambda x: inspect.getsource(
+                getattr(
+                    module,
+                    x)).find('.get(') != -1,
+            test_function_names))
+    test_functions_for_post = list(
+        filter(
+            lambda x: inspect.getsource(
+                getattr(
+                    module,
+                    x)).find('.post(') != -1,
+            test_function_names))
 
     print("\n============= Sanity Check Report ===========")
     SANITY_TEST_PASSING = True
@@ -43,7 +59,9 @@ def run_sanity_check(test_dir):
     if not test_functions_for_get:
         print(FAIL_COLOR + f"[{WARNING_COUNT}]")
         WARNING_COUNT += 1
-        print(FAIL_COLOR + "No test cases were detected for the GET() method.")
+        print(
+            FAIL_COLOR +
+            "No test cases were detected for the GET() method.")
         print(
             FAIL_COLOR +
             "\nPlease make sure you have a test case for the GET method.\
@@ -52,7 +70,8 @@ def run_sanity_check(test_dir):
 
     else:
         for func in test_functions_for_get:
-            source = inspect.getsource(getattr(module, func))
+            source = inspect.getsource(
+                getattr(module, func))
             if source.find('.status_code') != -1:
                 TEST_FOR_GET_METHOD_RESPONSE_CODE = True
             if (source.find('.json') != -
@@ -103,7 +122,8 @@ def run_sanity_check(test_dir):
             SANITY_TEST_PASSING = False
 
         for func in test_functions_for_post:
-            source = inspect.getsource(getattr(module, func))
+            source = inspect.getsource(
+                getattr(module, func))
             if source.find('.status_code') != -1:
                 TEST_FOR_POST_METHOD_RESPONSE_CODE = True
             if (source.find('.json') != -
@@ -130,7 +150,8 @@ def run_sanity_check(test_dir):
             WARNING_COUNT += 1
             print(
                 FAIL_COLOR +
-                "You do not seem to have TWO separate test cases, one for each possible prediction that your model can make.")
+                "You do not seem to have TWO separate test cases, "
+                "one for each possible prediction that your model can make.")
 
     SANITY_TEST_PASSING = SANITY_TEST_PASSING and\
         TEST_FOR_GET_METHOD_RESPONSE_CODE and \
