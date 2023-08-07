@@ -24,7 +24,6 @@ def run_sanity_check(test_dir):
     module_name = path.splitext(path.basename(filepath))[0]
     module = importlib.import_module(module_name)
 
-
     test_function_names = list(filter(lambda x: inspect.isfunction(getattr(module,x)) and not x.startswith('__'), dir(module)))
 
     test_functions_for_get = list(filter(lambda x: inspect.getsource(getattr(module,x)).find('.get(') != -1 , test_function_names))
@@ -121,8 +120,14 @@ def run_sanity_check(test_dir):
 
     if SANITY_TEST_PASSING:
         print(OK_COLOR+"Your test cases look good!")
-    
-    print(WARN_COLOR+"This is a heuristic based sanity testing and cannot guarantee the correctness of your code.")
+
+    flake8_output = os.popen(f"flake8 {test_dir}").read()
+    if flake8_output:
+        print("\n============= Flake8 Warnings ===========")
+        print(flake8_output)
+        print(WARN_COLOR+"Please fix the above flake8 warnings in your code before submitting.")
+
+    print(WARN_COLOR+"This is a heuristic-based sanity testing and cannot guarantee the correctness of your code.")
     print(WARN_COLOR+"You should still check your work against the rubric to ensure you meet the criteria.")
 
 
@@ -132,4 +137,3 @@ if __name__ == "__main__":
     parser.add_argument('test_dir',metavar='test_dir',nargs='?',default='tests',help='Name of the directory that has test files.')
     args = parser.parse_args()
     run_sanity_check(args.test_dir)
-
