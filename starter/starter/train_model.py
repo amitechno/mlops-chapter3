@@ -5,7 +5,7 @@ from ml.model import train_model, compute_model_metrics
 import joblib
 
 # Load the data
-csv_file_path = "../data/census.csv"
+csv_file_path = "starter/data/census.csv"
 data = pd.read_csv(csv_file_path)
 
 # Optional enhancement: Use K-fold cross-validation instead of a train-test split.
@@ -36,7 +36,7 @@ X_test, y_test, _, _ = process_data(
 model = train_model(X_train, y_train)
 
 # Save the trained model
-model_filename = "../model/trained_model.joblib"
+model_filename = "starter/model/trained_model.joblib"
 joblib.dump(model, model_filename)
 
 # Optionally, you can load the model later using:
