@@ -1,0 +1,25 @@
+name: Pytest and Flake8
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x  # Replace '3.x' with the Python version you used in development
+
+    - name: Install dependencies
+      run: pip install pytest flake8
+
+    - name: Run pytest
+      run: pytest
+
+    - name: Run flake8
+      run: flake8
