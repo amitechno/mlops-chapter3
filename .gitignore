@@ -1,3 +1,5 @@
 **/__pycache__/
 .coverage
 .pytest_cache
+__pycache__/
+starter/ml/__pycache__/

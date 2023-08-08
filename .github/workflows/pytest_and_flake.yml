@@ -34,11 +34,8 @@ jobs:
     - name: Static Code Analysis
       run: flake8 . --max-line-length 120
 
-    - name: Continuous Testing stage for Model
-      run: python -m pytest test/test_model.py
-
-    - name: Continuous Testing stage for API
-      run: python -m pytest test/test_app.py
+    - name: Continuous Testing using pytest
+      run: python -m pytest test
     
     - name: Run tests with coverage
       run: coverage run -m pytest

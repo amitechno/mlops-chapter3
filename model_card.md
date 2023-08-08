@@ -25,7 +25,11 @@
 - Evaluation Factors: Demographic factors such as Age, Gender, and Ethnicity
 
 ## Metrics
-- Model Performance Measures: The model was evaluated using F1 score. The value is 0.380
+- Model Performance Measures: The model was evaluated using F1 score,Recall and Precision for which values are as below:
+   - Precision: 0.722117202268431
+   - Recall:  0.24773022049286642
+   - F1 score: 0.36890391115403187
+
 
 ## Evaluation Data
 - Datasets: Census Bureau data
