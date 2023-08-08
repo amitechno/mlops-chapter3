@@ -74,3 +74,13 @@ async def predict_income(inputrow: Item):
         return {"income class": prediction}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.post('/predict')
+async def predict_income(inputrow: Item):
+    model_path = 'model/census_model.pkl'
+    try:
+        prediction = online_inference(
+            inputrow.dict(), model_path, cat_columns)
+        return {"income class": prediction}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
