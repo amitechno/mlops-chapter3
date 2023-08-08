@@ -35,7 +35,7 @@ class Item(BaseModel):
     native_country: str = Field(..., example="United-States")
 
 
-def online_inference(input_data, model_path, cat_features):
+def app_prediction(input_data, model_path, cat_features):
     # Load the model from `model_path`
     model, encoder, lb = joblib.load(model_path)
 
@@ -69,7 +69,7 @@ def home():
 async def predict_income(inputrow: Item):
     model_path = 'model/census_model.pkl'
     try:
-        prediction = online_inference(
+        prediction = app_prediction(
             inputrow.dict(), model_path, cat_columns)
         return {"income class": prediction}
     except Exception as e:
@@ -79,7 +79,7 @@ async def predict_income(inputrow: Item):
 async def predict_income(inputrow: Item):
     model_path = 'model/census_model.pkl'
     try:
-        prediction = online_inference(
+        prediction = app_prediction(
             inputrow.dict(), model_path, cat_columns)
         return {"income class": prediction}
     except Exception as e:
