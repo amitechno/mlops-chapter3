@@ -23,5 +23,5 @@ if __name__ == '__main__':
     train_and_save_model(train_data, model_path, cat_columns)
     # evaluating the model on the test data
     precision, recall, f_beta = custom_prediction(test_data,
-                                                model_path,
-                                                cat_columns)
+                                                  model_path,
+                                                  cat_columns)

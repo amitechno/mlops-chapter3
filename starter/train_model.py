@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 from sklearn.model_selection import train_test_split
 from .ml.data import process_data
 from .ml.model import train_model, inference, compute_model_metrics
@@ -37,7 +36,7 @@ def train_and_save_model(
 
 
 def custom_prediction(test_data, model_path, cat_features,
-                    label_column='salary'):
+                      label_column='salary'):
     # Load the model from `model_path`
     model, encoder, lb = joblib.load(model_path)
 
