@@ -1,6 +1,6 @@
 import pandas as pd
-from main import CAT_FEATURES
-from starter.train_model import batch_inference
+from main import cat_columns
+from starter.train_model import custom_prediction
 from tabulate import tabulate
 
 
@@ -17,8 +17,8 @@ def compute_model_slices(feature_name, data_path, cat_features, model_path):
         # Filter the data for the current value of the feature
         slice_data = data[data[feature_name] == value]
 
-        # Compute the metrics using batch_inference
-        precision, recall, f_beta = batch_inference(
+        # Compute the metrics using custom_prediction
+        precision, recall, f_beta = custom_prediction(
             slice_data, model_path, cat_features)
 
         # Append the metrics to the output list as a dictionary
@@ -38,7 +38,7 @@ if __name__ == "__main__":
     model_path = 'model/census_model.pkl'
 
     model_slices_output = compute_model_slices(
-        feature_name, data_path, CAT_FEATURES, model_path)
+        feature_name, data_path, cat_columns, model_path)
 
     # Write the output to slice_output.txt in a tabular format
     with open("slice_output.txt", "w") as f:

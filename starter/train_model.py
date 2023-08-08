@@ -36,7 +36,7 @@ def train_and_save_model(
     joblib.dump((model, encoder, lb), model_path)
 
 
-def batch_inference(test_data, model_path, cat_features,
+def custom_prediction(test_data, model_path, cat_features,
                     label_column='salary'):
     # Load the model from `model_path`
     model, encoder, lb = joblib.load(model_path)
@@ -60,32 +60,3 @@ def batch_inference(test_data, model_path, cat_features,
     print('F-beta score:\t', fbeta)
 
     return precision, recall, fbeta
-
-
-def online_predict(row_dict, model_path, cat_features,
-                   label_column='salary'):
-    # Load the model from `model_path`
-    model, encoder, lb = joblib.load(model_path)
-
-    X_categorical = []
-    X_continuous = []
-
-    for key, value in row_dict.items():
-        mod_key = key.replace('_', '-')
-        if mod_key in cat_features:
-            X_categorical.append(value)
-        else:
-            X_continuous.append(value)
-
-    # Transform input data
-    X_cat = encoder.transform([X_categorical])
-    X_cont = np.asarray([X_continuous])
-    row_transformed = np.concatenate(
-        [X_cont, X_cat], axis=1)
-
-    # Get inference from model
-    preds = inference(model=model, X=row_transformed)
-
-    # Return the predicted income category based on the
-    # model's prediction
-    return '>50K' if preds[0] else '<=50K'

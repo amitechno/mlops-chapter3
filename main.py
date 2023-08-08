@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 from starter.train_model import train_and_save_model, get_data, batch_inference
 
 
 CAT_FEATURES = [
+=======
+from starter.train_model import train_and_save_model, get_data, custom_prediction
+
+
+cat_columns = [
+>>>>>>> 7735632 (finalising code)
     "workclass",
     "education",
     "marital-status",
@@ -20,8 +27,8 @@ if __name__ == '__main__':
     # Get the splitted data
     train_data, test_data = get_data(data_path)
     # Training the model on the train data
-    train_and_save_model(train_data, model_path, CAT_FEATURES)
+    train_and_save_model(train_data, model_path, cat_columns)
     # evaluating the model on the test data
-    precision, recall, f_beta = batch_inference(test_data,
+    precision, recall, f_beta = custom_prediction(test_data,
                                                 model_path,
-                                                CAT_FEATURES)
+                                                cat_columns)

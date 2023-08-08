@@ -6,7 +6,7 @@ from starter.ml.model import inference
 
 app = FastAPI()
 
-CAT_FEATURES = [
+cat_columns = [
     "workclass",
     "education",
     "marital-status",
@@ -35,7 +35,7 @@ class Item(BaseModel):
     native_country: str = Field(..., example="United-States")
 
 
-def online_inference(row_dict, model_path, cat_features):
+def online_inference(input_data, model_path, cat_features):
     # Load the model from `model_path`
     model, encoder, lb = joblib.load(model_path)
 
@@ -43,7 +43,7 @@ def online_inference(row_dict, model_path, cat_features):
     X_categorical = list()
     X_continuous = list()
 
-    for key, value in row_dict.items():
+    for key, value in input_data.items():
         mod_key = key.replace('_', '-')
         if mod_key in cat_features:
             X_categorical.append(value)
@@ -70,7 +70,7 @@ async def predict_income(inputrow: Item):
     model_path = 'model/census_model.pkl'
     try:
         prediction = online_inference(
-            inputrow.dict(), model_path, CAT_FEATURES)
+            inputrow.dict(), model_path, cat_columns)
         return {"income class": prediction}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
